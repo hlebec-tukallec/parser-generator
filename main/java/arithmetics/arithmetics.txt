@@ -1,0 +1,41 @@
+[] e [int val, int acc] -> t[] {val = t.val; acc = t.val;} ep[acc]{val = ep.val; acc = val;};
+
+[int acc] ep [int val, int myAcc] -> ADD t[] {myAcc = acc + t.val} ep[myAcc] {val = ep.val;}
+| SUB t[]{myAcc = acc - t.val;} ep[myAcc] {val = ep.val;}
+| EPS {val = acc;};
+
+[] t [int val, int myAcc] -> sochet[]{myAcc = sochet.val;} tp[myAcc] {val = tp.val;};
+
+[int acc] tp [int val, int myAcc] -> MUL sochet[]{myAcc = acc * sochet.val;} tp[myAcc] {val = tp.val;}
+| DIV sochet[]{myAcc = acc / sochet.val;} tp[myAcc] {val = tp.val;}
+| EPS {val = acc;};
+
+[] f [int val] -> LPAR e[]{val = e.val;} RPAR
+| NUM {val = Integer.parseInt(NUM.text);}
+| SUB f[]{val = -f.val;};
+
+[] sochet [int val] -> f[] helpToCount[f.val] {val = helpToCount.val;};
+
+[int acc] helpToCount [int val] -> COMMA sochet[] {
+    int tmp = acc - sochet.val;
+    int cur1 = tmp = acc + 1 - sochet.val;
+    int cur2 = 1;
+    tmp++;
+    for (int i = 2; i <= sochet.val; i++, tmp++) cur1 = cur1 * tmp;
+    for (int i = 2; i <= sochet.val; i++, tmp++) cur2 = cur2 * i;
+    val = cur1 / cur2;
+    System.out.println(cur1);
+    System.out.println(cur2);
+    System.out.println(val);}
+    | EPS {val = acc;};
+
+! SUB = ['-'];
+! ADD = ['\\+'];
+! MUL = ['\\*'];
+! DIV = ['/'];
+! NUM = ['[0-9]+'];
+! LPAR = ['\\('];
+! RPAR = ['\\)'];
+! SKIP = [' \t\n\r'];
+! SEMI = [';'];
+! COMMA = [','];

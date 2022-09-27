@@ -1,0 +1,38 @@
+[] e [] -> LAMBDA t[] COLON expr[];
+
+[] t [] -> VAR t2[]
+| EPS;
+
+[] t2 [] -> COMMA t3[]
+| EPS;
+
+[] t3 [] -> VAR t2[];
+
+[] expr [] -> e1[] e2[];
+
+[] e2 [] -> PLUS f[] m[]
+| MINUS f[] m[]
+| EPS;
+
+[] e1 [] -> f[] m[];
+
+[] m [] -> MULT f[] m[]
+| DIV f[] m[]
+| EPS;
+
+[] f [] -> VAR
+| NUM
+| LPAREN expr[] RPAREN;
+
+! LAMBDA = ['lambda'];
+! COLON = [':'];
+! VAR = ['[a-zA-Z]+'];
+! NUM = ['[0-9]+'];
+! COMMA = [','];
+! LPAREN = ['\\('];
+! RPAREN = ['\\)'];
+! PLUS = ['\\+'];
+! MINUS = ['\\-'];
+! MULT = ['\\*'];
+! DIV = ['/'];
+! SKIP = [' \t\n\r'];
